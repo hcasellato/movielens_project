@@ -1,5 +1,5 @@
 ---
-title: "MovieLens - Report"
+title: "MovieLens Report"
 author: "Henrique Casellato"
 date: "28/06/2021"
 output: html_document
