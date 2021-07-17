@@ -1,7 +1,7 @@
 ### Code Summary: ##############################################################
-#
-#
-#
+# This script has the intent of showing the effectiveness of the LIBMF method in
+# the edx data set before using it on the validation data set.
+# This script is not required for the prediction_final.R script.
 #
 ### Basic data sets: ###########################################################
 # Create edx set, validation set (final hold-out test set)
@@ -83,10 +83,12 @@ rmse <- function(true, predicted){
 }
 
 ### Modeling: ##################################################################
-# 
+# Modeling of the data using the recosystem package, LIBMF method.
+#
 
 set.seed(2021, sample.kind = "Rounding")
 
+# Translation of the train and test sets to a recosystem set
 train_data <-  with(train_set, data_memory(user_index = userId, 
                                            item_index = movieId, 
                                            rating     = rating))
@@ -95,11 +97,15 @@ test_data  <-  with(test_set,  data_memory(user_index = userId,
                                            item_index = movieId, 
                                            rating     = rating))
 
+# Removing unused data:
 rm(edx, validation, test_index, train_set)
 gc()
 
+# Creating a recommender model:
 r <- Reco()
 
+# Tuning parameters:
+# This process can take a while =(
 tune <- r$tune(train_data, opts = list(dim      = c(10, 20, 30),
                                        lrate    = c(0.1, 0.2),
                                        costp_l2 = c(0.01, 0.1), 
@@ -107,8 +113,12 @@ tune <- r$tune(train_data, opts = list(dim      = c(10, 20, 30),
                                        nthread  = 4, 
                                        niter    = 10))
 
+# Training model:
 r_train <- r$train(train_data, opts = c(tune$min, nthread = 1, niter = 30))
 
+# Prediction model:
 r_predict <- r$predict(test_data, out_memory())
 
+# RMSE results:
 result <- rmse(test_set$rating, r_predict)
+result
