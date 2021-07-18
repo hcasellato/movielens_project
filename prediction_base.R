@@ -1,8 +1,8 @@
 ### Code Summary: ##############################################################
-# This script has the intent of showing the effectiveness of the LIBMF method in
-# the edx data set before using it on the validation data set.
+# This script has the intent of showing the effectiveness of the LIBMF method on
+# the edx data set.
 # This script is not required for the prediction_final.R script.
-#
+#  
 ### Basic data sets: ###########################################################
 # Create edx set, validation set (final hold-out test set)
 # Note: this process could take a couple of minutes
@@ -83,12 +83,12 @@ rmse <- function(true, predicted){
 }
 
 ### Modeling: ##################################################################
-# Modeling of the data using the recosystem package, LIBMF method.
+# Modeling the data using the recosystem package, LIBMF method.
 #
 
 set.seed(2021, sample.kind = "Rounding")
 
-# Translation of the train and test sets to a recosystem set
+# Translating the train and test sets to a recosystem set
 train_data <-  with(train_set, data_memory(user_index = userId, 
                                            item_index = movieId, 
                                            rating     = rating))
