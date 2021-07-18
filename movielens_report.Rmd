@@ -2,11 +2,39 @@
 title: "MovieLens Report"
 author: "Henrique Casellato"
 date: "28/06/2021"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Introduction
+# **Introduction**
+## Project goal:
+  The purpose of this project is to create a reliable and light movie recommendation system. Instead of the complete MovieLens dataset, this project will use its 10M version to facilitate the computation. 
+
+## Dataset general information:
+  The dataset consists of approximately 10 million ratings of different users to different films (the exact numbers are displayed further in the data exploration section). Also, the dataset provides the films genres and time stamps, in case they are valuable to the analysis.
+
+## Project planning:
+  To achieve good performance in the analysis, this project will follow these steps:
+
+  **Data exploration** - Investigate the data set to understand more about it and eventually find a preferred method.  
+	**Data preparation** - Clean and prepare the data set for modelling.  
+	**Data modelling** - Training and testing the chosen method to prove its effectiveness.  
+	**Method validation** - Final testing and results report.  
+
+## Project structure:
+  The project separation into three independent scripts has the purpose of only running the necessary and intended code. These divisions are:
+
+  **Data exploration [data_exploration.R]** - This script has the purpose of investigating the data for insights in further analysis.  
+  **Experiment [experiment.R]** - This script has the purpose of showing the effectiveness of the LIBMF method.  
+   **Final validation [prediction_final.R]** - This script has the intention of displaying the final script.  
+
+# **Methods and Analysis**
+## Data Exploration
+  As far as recommendation systems are known, the algorithms that appear more frequently are: collaborative filtering, popularity based, and matrix factorization. To select one for testing, it is vital to explore our data and understand how it behaves.
+  
+  
