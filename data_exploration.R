@@ -108,11 +108,53 @@ median(d_movie$count)
 
 # This will set the working directory where the current project is located:
 setwd(getwd())
-d_genres <- read.csv("./d_genres.csv")
+
+# And this will load the file:
+d_genres <- read.csv("./d_genres.csv")[,2:3]
 
 mean(d_genres$count)
 median(d_genres$count)
 
+# Distribution of ratings:
+# Also its mean and median values
 
+d_rating <- edx %>% group_by(rating) %>%
+                    summarize(count = n())
 
+mean(d_rating$count)
+median(d_rating$count)
 
+### Data Visualization: ########################################################
+# Now, the distributions already made can be visualized and maybe give an 
+# insight on what method is better pursuing.
+#
+
+## Histograms:
+# Users
+d_user %>% ggplot(aes(count)) +
+          scale_x_log10() +
+          geom_histogram(bins = 50, fill = "azure4") +
+          ggtitle("Distribution of Ratings per User") +
+          ylab("Number of Users") +
+          xlab("Number of Ratings") +
+          theme_bw(base_size = 12, base_family = "times")
+
+# Movies
+d_movie %>% ggplot(aes(count)) +
+            scale_x_log10() +
+            geom_histogram(bins = 50, fill = "azure4") +
+            ggtitle("Distribution of Ratings per Movie") +
+            ylab("Number of Movie") +
+            xlab("Number of Ratings") +
+            theme_bw(base_size = 12, base_family = "times")
+
+# Ratings
+d_rating %>% ggplot(aes(x = rating, y = count)) +
+             geom_col(fill = "azure4") +
+             ggtitle("Distribution of Ratings given") +
+             ylab("Number of Ratings") +
+             xlab("Ratings") +
+             theme_bw(base_size = 12, base_family = "times")
+
+# Uncomment the rm() function if the distributions are no longer necessary! 
+# rm(d_genres,d_movie,d_rating,d_user)
