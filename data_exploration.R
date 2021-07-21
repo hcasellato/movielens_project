@@ -98,7 +98,7 @@ mean(d_movie$count)
 median(d_movie$count)
 
 # Distribution of votes per genre:
-# Also its mean and median values
+# Also its mean value
 # ATTENTION: This d_genres is commented out because the process is unnecessarily
 # slow. The file was already downloaded when cloned the git repository.
 
@@ -113,7 +113,6 @@ setwd(getwd())
 d_genres <- read.csv("./d_genres.csv")[,2:3]
 
 mean(d_genres$count)
-median(d_genres$count)
 
 # Distribution of ratings:
 # Also its mean and median values
@@ -131,30 +130,33 @@ median(d_rating$count)
 
 ## Histograms:
 # Users
-d_user %>% ggplot(aes(count)) +
+h_user <- d_user %>% ggplot(aes(count)) +
           scale_x_log10() +
           geom_histogram(bins = 50, fill = "azure4") +
           ggtitle("Distribution of Ratings per User") +
           ylab("Number of Users") +
           xlab("Number of Ratings") +
           theme_bw(base_size = 12, base_family = "times")
+h_user
 
 # Movies
-d_movie %>% ggplot(aes(count)) +
-            scale_x_log10() +
-            geom_histogram(bins = 50, fill = "azure4") +
-            ggtitle("Distribution of Ratings per Movie") +
-            ylab("Number of Movie") +
-            xlab("Number of Ratings") +
-            theme_bw(base_size = 12, base_family = "times")
+h_movie <- d_movie %>% ggplot(aes(count)) +
+           scale_x_log10() +
+           geom_histogram(bins = 50, fill = "azure4") +
+           ggtitle("Distribution of Ratings per Movie") +
+           ylab("Number of Movie") +
+           xlab("Number of Ratings") +
+           theme_bw(base_size = 12, base_family = "times")
+h_movie
 
 # Ratings
-d_rating %>% ggplot(aes(x = rating, y = count)) +
-             geom_col(fill = "azure4") +
-             ggtitle("Distribution of Ratings given") +
-             ylab("Number of Ratings") +
-             xlab("Ratings") +
-             theme_bw(base_size = 12, base_family = "times")
+h_rating <- d_rating %>% ggplot(aes(x = rating, y = count)) +
+            geom_col(fill = "azure4") +
+            ggtitle("Distribution of Ratings given") +
+            ylab("Number of Ratings") +
+            xlab("Ratings") +
+            theme_bw(base_size = 12, base_family = "times")
+h_rating
 
 # Uncomment the rm() function if the distributions are no longer necessary! 
 # rm(d_genres,d_movie,d_rating,d_user)
