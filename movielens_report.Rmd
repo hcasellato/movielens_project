@@ -310,5 +310,5 @@ result_v
 
   Luo, Shuyu. “Intro to Recommender System: Collaborative Filtering.” Medium, Towards Data Science, 6 Feb. 2019, towardsdatascience.com/intro-to-recommender-system-collaborative-filtering-64a238194a26. 
   
-Qiu, Yixuan. “Recosystem Package.” RDocumentation, May 2021, www.rdocumentation.org/packages/recosystem/versions/0.4.5. 
-  
+Qiu, Yixuan. “Recosystem Package.” RDocumentation, May 2021,
+www.rdocumentation.org/packages/recosystem/versions/0.4.5. 
