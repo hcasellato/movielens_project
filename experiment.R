@@ -1,7 +1,5 @@
 ### Code Summary: ##############################################################
-# This script has the intent of showing the effectiveness of the LIBMF method on
-# the edx data set.
-# This script is not required for the prediction_final.R script.
+# This script has the intent of exploring MovieLens data.
 #  
 ### Basic data sets: ###########################################################
 # Create edx set, validation set (final hold-out test set)
