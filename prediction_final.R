@@ -89,12 +89,12 @@ r_v <- Reco()
 
 # Tuning parameters:
 # This process can take a while =(
-tune_v <- r$tune(edx_data, opts = list(dim      = c(10, 20, 30),
-                                     lrate    = c(0.1, 0.2),
-                                     costp_l2 = c(0.01, 0.1), 
-                                     costq_l2 = c(0.01, 0.1),
-                                     nthread  = 4, 
-                                     niter    = 10))
+tune_v <- r$tune(edx_data, opts = list(dim    = c(10, 20, 30),
+                                       lrate    = c(0.1, 0.2),
+                                       costp_l2 = c(0.01, 0.1), 
+                                       costq_l2 = c(0.01, 0.1),
+                                       nthread  = 4, 
+                                       niter    = 10))
 
 # Training model:
 r_train_v <- r$train(edx_data, opts = c(tune$min, nthread = 1, niter = 30))
@@ -103,5 +103,5 @@ r_train_v <- r$train(edx_data, opts = c(tune$min, nthread = 1, niter = 30))
 r_predict_v <- r$predict(validation_data, out_memory())
 
 # RMSE results:
-result_v <- rmse(validation$rating, r_predict)
+result_v <- rmse(validation$rating, r_predict_v)
 result_v

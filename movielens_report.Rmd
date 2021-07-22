@@ -1,7 +1,7 @@
 ---
 title: "MovieLens Report"
 author: "Henrique Casellato"
-date: "28/06/2021"
+date: "22/07/2021"
 output:
   pdf_document: default
   html_document: default
@@ -159,7 +159,7 @@ When researching recommender systems for sparse matrices, a method becomes appli
 
 # **Data Preparation**
 ## Data Loading
-  The next code is supposed to load the last required package for preparing, modeling and validating:
+  The next code is supposed to load the last required package:
 ```{r packages_dp, eval=TRUE, message=FALSE}
 repo <- "http://cran.us.r-project.org"
 
@@ -240,7 +240,7 @@ result
 
 # **Method Validation**
   Given that the method worked really well on the partitioned data set, it should work on the validation set. Therefore, the steps will be repeated but with different training and testing sets:
-```{r d_v, eval=TRUE,message=FALSE}
+```{r d_v, eval=TRUE, message=FALSE}
 set.seed(2021, sample.kind = "Rounding")
 
 # Translating the train and test sets to a recosystem set
@@ -271,7 +271,7 @@ tune_v$min
 ```
   Training and predicting:  
 
-```{r ddd, eval=TRUE,message=FALSE}
+```{r ddd, eval=TRUE, message=FALSE, warning=FALSE}
 # Training model:
 r_train_v <- r$train(edx_data, opts = c(tune$min, nthread = 1, niter = 30))
 
@@ -280,13 +280,35 @@ r_predict_v <- r$predict(validation_data, out_memory())
 ```
   After that, we calculate the final RMSE: 
 
-```{r res_v, message=TRUE}
+```{r res_v, message=TRUE, warning=FALSE}
 # RMSE results:
-result_v <- rmse(validation$rating, r_predict)
+result_v <- rmse(validation$rating, r_predict_v)
 result_v
 ```
   The results shown in the final validation are excellent! With that, we complete the final tests.
 
-# **Results and Discussion**
+# **Conclusion**
+## Results
+  The report's goal was to analyze, test, and evaluate preferred methods in the quest for light and reliable recommender systems. The chosen data set to work with was the 10M Movie Lens, and the best algorithm was the LIBMF. The expected (training and testing on partitioned edx data set) and observed(training on edx data and tested on validation set) final RMSEs were:
 
+|          | RMSE:      |
+|:---------|:-----------|
+|Expected: |`r result`  |
+|Observed: |`r result_v`|
 
+## Limitations and Future work
+  Machine learning algorithms demand a lot of processing velocity, time, and memory use, requiring plenty of study and investigation prior to code formulation. Nevertheless, this is a price to pay for good results.
+	There are other algorithms not tested in this report that might work well in sparse matrices, for example, NOMAD, and GraphChi. Also, further studies in the applicability of neural networks and deep learning on recommender systems are necessary since they might produce more solid results.
+
+# **References**
+
+  Hahsler, Michael. “Recommenderlab - Lab for Developing and Testing Recommender Algorithms - R Package.” RDocumentation, Rcran, 26 Feb. 2021, www.rdocumentation.org/packages/recommenderlab/versions/0.2-7. 
+  
+  Hahsler, Michael. “Recommenderlab: A Framework for Developing AndTesting Recommendation Algorithms.” RDocumentation, 2016, cran.r-project.org/web/packages/recommenderlab/vignettes/recommenderlab.pdf. 
+
+  Irizarry, Rafael  A. Introduction to Data Science. Leanpub, 2021. 
+
+  Luo, Shuyu. “Intro to Recommender System: Collaborative Filtering.” Medium, Towards Data Science, 6 Feb. 2019, towardsdatascience.com/intro-to-recommender-system-collaborative-filtering-64a238194a26. 
+  
+Qiu, Yixuan. “Recosystem Package.” RDocumentation, May 2021, www.rdocumentation.org/packages/recosystem/versions/0.4.5. 
+  
