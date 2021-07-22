@@ -169,7 +169,7 @@ library(recosystem)
 
 ## Data Arrangement
   First, it is necessary to create the train and test sets based on the edx data set:
-```{r d_arr, eval=TRUE, message=FALSE}
+```{r d_arr, eval=TRUE, message=FALSE, warning=FALSE}
 set.seed(2021, sample.kind = "Rounding")
 
 # Data sets
@@ -185,7 +185,7 @@ test_set <- test_set %>%
 
 ```
   Then, it is necessary to "translate" the data table to something recosystem functions can interpret:
-```{r d_arr2, eval=TRUE, message=FALSE}
+```{r d_arr2, eval=TRUE, message=FALSE, warning=FALSE}
 set.seed(2021, sample.kind = "Rounding")
 
 # Translating the train and test sets to a recosystem set
@@ -219,7 +219,7 @@ tune <- r$tune(train_data, opts = list(dim      = c(10, 20, 30),
                                        nthread  = 4, 
                                        niter    = 10))
 ```
-  The later used tune parameters can be found running the code:
+  The tune parameters used in later training can be found running the code:
 ```{r d_model2, eval=TRUE, message=TRUE}
 tune$min
 ```
@@ -231,18 +231,62 @@ r_train <- r$train(train_data, opts = c(tune$min, nthread = 1, niter = 30))
 # Prediction model:
 r_predict <- r$predict(test_data, out_memory())
 ```
-
+  With all set, we calculate the RMSE and find out that the LIBMF method is really efficient:
 ```{r d_result, eval=TRUE, message=TRUE}
 # RMSE results:
 result <- rmse(test_set$rating, r_predict)
 result
 ```
 
+# **Method Validation**
+  Given that the method worked really well on the partitioned data set, it should work on the validation set. Therefore, the steps will be repeated but with different training and testing sets:
+```{r d_v, eval=TRUE,message=FALSE}
+set.seed(2021, sample.kind = "Rounding")
 
+# Translating the train and test sets to a recosystem set
+edx_data <- with(edx, data_memory(user_index = userId, 
+                                  item_index = movieId, 
+                                  rating     = rating))
 
+validation_data <- with(validation,  data_memory(user_index = userId, 
+                                                 item_index = movieId, 
+                                                 rating     = rating))
 
+# Creating a recommender model:
+r_v <- Reco()
 
+# Tuning parameters:
+# This process can take a while =(
+tune_v <- r$tune(edx_data, opts = list(dim      = c(10, 20, 30),
+                                     lrate    = c(0.1, 0.2),
+                                     costp_l2 = c(0.01, 0.1), 
+                                     costq_l2 = c(0.01, 0.1),
+                                     nthread  = 4, 
+                                     niter    = 10))
+```
 
+  Again, the tune parameters to be used are:
+```{r tunee, eval=TRUE, message=TRUE}
+tune_v$min
+```
+  Training and predicting:  
 
+```{r ddd, eval=TRUE,message=FALSE}
+# Training model:
+r_train_v <- r$train(edx_data, opts = c(tune$min, nthread = 1, niter = 30))
+
+# Prediction model:
+r_predict_v <- r$predict(validation_data, out_memory())
+```
+  After that, we calculate the final RMSE: 
+
+```{r res_v, message=TRUE}
+# RMSE results:
+result_v <- rmse(validation$rating, r_predict)
+result_v
+```
+  The results shown in the final validation are excellent! With that, we complete the final tests.
+
+# **Results and Discussion**
 
 

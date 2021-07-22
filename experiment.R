@@ -69,9 +69,11 @@ gc()
 # Test and train data partitioning
 # Also creating rmse function
 
+set.seed(2021, sample.kind = "Rounding")
+
 # Data sets
 test_index <- createDataPartition(edx$rating, times = 1,
-                                  p = 0.3, list = FALSE)
+                                  p = 0.2, list = FALSE)
 train_set <- edx[-test_index]
 test_set  <- edx[test_index]
 
@@ -101,7 +103,7 @@ test_data  <-  with(test_set,  data_memory(user_index = userId,
                                            rating     = rating))
 
 # Removing unused data:
-rm(edx, validation, test_index, train_set)
+# rm(edx, validation, test_index, train_set)
 gc()
 
 # Creating a recommender model:
